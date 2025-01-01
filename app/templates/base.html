@@ -5,11 +5,16 @@
     {% else %}
     <title>Welcome to Order Up!</title>
     {% endif %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
   </head>
   <body>
     {% if not current_user.is_anonymous %}
     <form method="POST" action="{{ url_for('session.logout') }}">
-      <button type="submit">Logout</button>
+      <button class="logout" type="submit">Logout</button>
     </form>
     {% endif %} {% block content %}{% endblock %}
   </body>

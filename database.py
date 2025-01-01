@@ -13,9 +13,14 @@ import random
 with app.app_context():
     db.drop_all()
     db.create_all()
-
-    employee = Employee(name="Margot", employee_number=1234, password="password")
-    db.session.add(employee)
+    employee1 = Employee(name="Margot", employee_number=1234, password="password")
+    db.session.add(employee1)
+    employee2 = Employee(name="Ma", employee_number=1235, password="pipipopp")
+    db.session.add(employee2)
+    employee3 = Employee(
+        name="Margaritt", employee_number=1236, password="password1234"
+    )
+    db.session.add(employee3)
     db.session.commit()
 
     beverages = MenuItemType(name="Beverages")

@@ -1,5 +1,27 @@
 {% extends "base.html" %} {% block title %}Order Up{% endblock %} {% block
 content %}
 <h1>Order Up!</h1>
-<p>Welcome to the Order Up application. Manage your orders efficiently!</p>
+<form action="{{ url_for('.index') }}" method="POST" class="assign-form">
+  {{ form.hidden_tag() }}
+  <!-- To include CSRF token -->
+
+  <div class="form-field">
+    {{ form.tables(class_="form-select") }} {% if form.is_submitted() and
+    form.tables.errors %}
+    <span class="error">{{ form.tables.errors[0] }}</span>
+    {% endif %}
+  </div>
+
+  <div class="form-field">
+    {{ form.servers(class_="form-select") }} {% if form.is_submitted() and
+    form.servers.errors %}
+    <span class="error">{{ form.servers.errors[0] }}</span>
+    {% endif %}
+  </div>
+
+  <div class="form-field">
+    <button type="submit" class="submit-button">Assign Table</button>
+  </div>
+</form>
+
 {% endblock %}

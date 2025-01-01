@@ -1,0 +1,102 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+/* Styling for specific forms */
+.assign-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-direction: row;
+  background-color: #f9f9f9; /* Light background color for the form */
+  box-sizing: content-box;
+  padding: 15px 0;
+  margin: 40px 100px;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+
+  /* Stack elements vertically */
+}
+
+.assign-form label {
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.assign-form .form-field {
+  width: 100%;
+  max-width: 350px; /* Adjust form width for responsiveness */
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.assign-form select,
+.assign-form button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.assign-form select {
+  background-color: #e8f7ff;
+  color: #333;
+}
+
+.assign-form button[type="submit"] {
+  background-color: #4dd5ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.assign-form button[type="submit"]:hover {
+  background-color: #33c4e9;
+}
+.invisible {
+  opacity: 0;
+}
+/* Logout button styling */
+.logout {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4dd5ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.logout:hover {
+  background-color: #33c4e9;
+}
+
+.error {
+  color: rgba(255, 153, 0, 0.924);
+  font-size: 0.9em;
+  margin-top: 20px;
+  visibility: hidden; /* Hidden by default */
+  top: 100%;
+  position: absolute;
+}
+
+.form-field .error {
+  visibility: visible; /* Only show when form is submitted and has errors */
+}
