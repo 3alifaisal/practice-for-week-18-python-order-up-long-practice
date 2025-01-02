@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, StringField, PasswordField, SubmitField, SelectField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, SelectField, IntegerField
+from wtforms.validators import DataRequired, ValidationError, NumberRange
 
 
 class LoginForm(FlaskForm):
@@ -35,4 +35,14 @@ class TableAssignmentForm(FlaskForm):
 class TableActionsForm(FlaskForm):
     close_table = SubmitField("Close Table")
     add_to_order = SubmitField("Add to Order")
-    table_id = HiddenField("Table ID")
+
+
+class MenuItemsForm(FlaskForm):
+    menu_item = IntegerField(
+        "item",
+        default=0,
+        validators=[
+            NumberRange(min=0, message="Value cannot be negative."),
+            DataRequired("Cannot be empty"),
+        ],
+    )

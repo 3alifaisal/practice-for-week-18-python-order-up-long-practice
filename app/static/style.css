@@ -155,15 +155,7 @@ h1 {
 }
 
 /* Styling for the additional UI section */
-.additional-ui {
-  flex: 1;
-  max-width: 48%; /* Takes the other half of the screen */
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-}
+
 .order-actions {
   display: flex;
   flex-direction: row;
@@ -204,4 +196,97 @@ h1 {
 /* Hide the hidden input field */
 .hidden {
   display: none;
+}
+
+/* Modify menu-items-container to match design and blend better with the interface */
+.menu-items-container {
+  flex: 1;
+  max-width: 48%; /* Maintain the width ratio */
+  background-color: #ffffff; /* Set a light, neutral background */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for depth */
+  padding: 20px;
+  text-align: center;
+  overflow-y: auto; /* Ensure scrolling if the menu items overflow */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Menu Items List Styling */
+.menu-items-container ul {
+  list-style-type: none; /* Remove default list styling */
+  padding: 0;
+  margin: 0;
+}
+
+/* Style for each list item (menu item) */
+.menu-items-container ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd; /* Subtle border between items */
+  background-color: #f9f9f9; /* Lighter background for each item */
+  margin-bottom: 8px;
+  border-radius: 5px; /* Slight rounding of item borders */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition effects */
+}
+
+.menu-items-container ul li:hover {
+  background-color: #f1f1f1; /* Slight hover effect for items */
+  transform: translateY(-3px); /* Elevate the item on hover */
+}
+
+.menu-items-container ul li button {
+  margin: 0 8px;
+}
+
+/* Apply styles to input fields to match the design */
+.menu-items-container .integer-field {
+  width: 60px;
+  text-align: center;
+  padding: 6px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  margin: 0 10px;
+  transition: border-color 0.3s ease;
+}
+
+.menu-items-container .integer-field:focus {
+  border-color: #4dd5ff; /* Focus border color */
+}
+
+/* Hover effects for the increment/decrement buttons */
+.menu-items-container button:hover {
+  background-color: #e2e2e2;
+}
+
+.menu-items-container h2 {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.menu-items-container h3 {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.menu-items-container .btn-secondary {
+  font-size: 18px;
+  background-color: #e8f7ff;
+  border: 1px solid #c0e0ff;
+  color: #333;
+}
+
+.menu-items-container .btn-secondary:hover {
+  background-color: #c0e0ff;
 }

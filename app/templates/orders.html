@@ -1,5 +1,68 @@
 {% extends "base.html" %} {% block title %}Order Up{% endblock %} {% block
 content %}
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+  // Select all "Add to Order" buttons
+  const addToOrderButtons = document.querySelectorAll(".btn-success");
+
+  addToOrderButtons.forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Find the parent form of the clicked button
+      const form = button.closest("form");
+
+      if (form) {
+        // Find all menu item input fields
+        const menuItems = document.querySelectorAll(
+          '.integer-field[id^="item-"]'
+        );
+
+        // Create an array to store item ID and value pairs
+        const menuItemData = [];
+
+        menuItems.forEach((menuItem) => {
+          const itemId = menuItem.id.replace("item-", ""); // Extract item ID
+          const value = parseInt(menuItem.value) || 0; // Parse value, default to 0
+          if (value > 0) {
+            menuItemData.push([itemId, value]); // Only include items with value > 0
+          }
+        });
+
+        // Convert the array to a JSON string and set it in the hidden input field
+        const hiddenInput = form.querySelector("#menu_item_value");
+        if (hiddenInput) {
+          hiddenInput.value = JSON.stringify(menuItemData);
+        }
+        const actionInput = form.querySelector("#form-action");
+        if (actionInput) {
+            actionInput.value = "add_to_order"; // Set the action value
+        }
+        // Submit the form
+        form.submit();
+      }
+    });
+  });
+});
+
+    // Ensure the value cannot go below zero
+    function incrementValue(itemId) {
+    // Get the input field using the item ID
+    var inputField = document.getElementById(itemId);
+    var currentValue = parseInt(inputField.value) || 0; // Get current value, default to 0 if not set
+    inputField.value = currentValue + 1; // Increment the value
+  }
+
+  function decrementValue(itemId) {
+    // Get the input field using the item ID
+    var inputField = document.getElementById(itemId);
+    var currentValue = parseInt(inputField.value) || 0; // Get current value, default to 0 if not set
+    if (currentValue > 0) { // Prevent going below 0
+      inputField.value = currentValue - 1; // Decrement the value
+    }
+  }
+</script>
 <h1>Order Up!</h1>
 <form action="{{ url_for('.index') }}" method="POST" class="assign-form">
   {{ form.hidden_tag() }}
@@ -44,6 +107,8 @@ content %}
             <form method="POST" class="order-actions">
               {{ formOrders.hidden_tag() }}
               <input type="hidden" name="table_number" value="{{ order.table_number }}">
+              <input type="hidden" name="action" id="form-action" value="">
+              <input type="hidden" id="menu_item_value" name="menu_item" value="0">
               {{ formOrders.close_table(class="btn btn-danger", value="Close Table") }} 
               {{ formOrders.add_to_order(class="btn btn-success", value="Add to Order") }}
             </form>
@@ -55,10 +120,35 @@ content %}
   </div>
 
   <!-- Empty UI section for future use -->
-  <div class="additional-ui">
-    <h2>Additional UI Section</h2>
-    <p>This space is reserved for future components.</p>
+  <div class="menu-items-container">
+    <h2>Menu Items</h2>
+    {% for menu_name, menu_types in menus_data.items() %}
+    <h2>{{ menu_name }}</h2>
+  {% for menu_type_name, items in menu_types.items() %}
+    
+    <h3>{{ menu_type_name }}</h3>
+    <ul>
+      {% for item in items %}
+         <li>
+      {{ item.name }} - ${{ item.price }}
+      
+      <!-- Decrement Button -->
+      <button type="button" class="btn btn-secondary" onclick="decrementValue('item-{{ item.id }}')">-</button>
+      
+      <!-- Integer Field -->
+        
+            {{ menuItemsForm.hidden_tag()}}
+            {{ menuItemsForm.menu_item(class_="integer-field item-" ~ item.id, value=0, id="item-" ~ item.id) }}
+      <!-- Increment Button -->
+      <button type="button" class="btn btn-secondary" onclick="incrementValue('item-{{ item.id }}')">+</button>
+    </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+{% endfor %}
   </div>
+</div>
+
 </div>
 
 {% endblock %}

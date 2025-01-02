@@ -1,8 +1,11 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import func
-from app.forms import TableAssignmentForm, TableActionsForm
-from app.models import MenuItem, Order, OrderDetail, Table, Employee, db
+from app.forms import TableAssignmentForm, TableActionsForm, MenuItemsForm
+from app.models import Menu, MenuItem, Order, OrderDetail, Table, Employee, db
+from collections import defaultdict
+from sqlalchemy.orm import joinedload
+import json
 
 bp = Blueprint("orders", __name__, url_prefix="")
 
@@ -13,6 +16,7 @@ def index():
     # Instantiate the form
     form = TableAssignmentForm()
     formOrders = TableActionsForm()
+    menuItemsForm = MenuItemsForm()
     tables = Table.query.order_by(Table.number).all()
     open_orders = Order.query.filter(Order.finished == False)
 
@@ -44,33 +48,53 @@ def index():
         .group_by(Table.id)
         .all()
     )
+    # Query the data and structure it
+    menus = Menu.query.options(joinedload(Menu.items).joinedload(MenuItem.type)).all()
+
+    # Structure the data into the nested dictionary
+    menus_data = defaultdict(lambda: defaultdict(list))
+
+    for menu in menus:
+        for menu_item in menu.items:
+            menu_type_name = menu_item.type.name  # Access the MenuItemType name
+            menus_data[menu.name][menu_type_name].append(menu_item)
+    # Query the data and structure it
+
     if formOrders.validate_on_submit():
         table_number = request.form.get(
             "table_number"
         )  # Get table_number directly from form
         if table_number:
-            table_number = int(table_number)  # Convert to int if needed
-            # Now you can perform actions based on table_number
+            table_number = int(table_number)
+        orders = (
+            Order.query.join(Table)
+            .filter(Table.number == table_number, Order.finished == False)
+            .all()
+        )
+        if formOrders.close_table.data:
+            # Handle "Close Table" action
 
-            if formOrders.close_table.data:
-                # Handle "Close Table" action
-                orders = (
-                    Order.query.join(Table)
-                    .filter(Table.number == table_number, Order.finished == False)
-                    .all()
-                )
-                if orders:
-                    for order in orders:
-                        order.finished = True
-                    db.session.commit()
-                    return redirect(url_for("orders.index"))
-                else:
-                    print(f"No open orders found for table {table_number}")
+            orders[0].finished = True
+            db.session.commit()
+            return redirect(url_for("orders.index"))
 
-            elif formOrders.add_to_order.data:
-                # Handle "Add to Order" action
-                print(f"Adding to order for table {table_number}")
-                # Add your "Add to Order" logic here
+        action = request.form.get("action")
+        if action == "add_to_order":
+            menu_items = json.loads(request.form.get("menu_item"))
+            print(menu_items)
+            if menu_items:
+                for menu_item in menu_items:
+                    item_id = int(menu_item[0])  # Menu item ID
+                    quantity = int(menu_item[1])  # Quantity
+
+                    for _ in range(quantity):
+                        # Assuming orders[0] is the relevant order ID
+                        orderDetail = OrderDetail(
+                            order_id=orders[0].id, menu_item_id=item_id
+                        )
+                        db.session.add(orderDetail)
+            db.session.commit()
+            return redirect(url_for("orders.index"))
 
     # If form is submitted and validated, process the order
     if form.validate_on_submit():
@@ -102,4 +126,6 @@ def index():
         orders=orders,
         order_sums=order_sums,
         formOrders=formOrders,
+        menus_data=menus_data,
+        menuItemsForm=menuItemsForm,
     )
