@@ -23,5 +23,42 @@ content %}
     <button type="submit" class="submit-button">Assign Table</button>
   </div>
 </form>
+<div class="main-container">
+  <div class="table-container">
+    <h1>Orders and Prices</h1>
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>Table Number</th>
+          <th>Total Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if order_sums %} {% for order in order_sums %}
+        <tr>
+          <td>{{ order.table_number }}</td>
+          <td>${{ order.total_price }}</td>
+          <td>
+            <!-- prettier-ignore -->
+            <form method="POST" class="order-actions">
+              {{ formOrders.hidden_tag() }}
+              <input type="hidden" name="table_number" value="{{ order.table_number }}">
+              {{ formOrders.close_table(class="btn btn-danger", value="Close Table") }} 
+              {{ formOrders.add_to_order(class="btn btn-success", value="Add to Order") }}
+            </form>
+          </td>
+        </tr>
+        {% endfor %} {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Empty UI section for future use -->
+  <div class="additional-ui">
+    <h2>Additional UI Section</h2>
+    <p>This space is reserved for future components.</p>
+  </div>
+</div>
 
 {% endblock %}

@@ -100,3 +100,108 @@ h1 {
 .form-field .error {
   visibility: visible; /* Only show when form is submitted and has errors */
 }
+/* Flexbox container for layout */
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px auto;
+  max-width: 90%; /* Limits the overall width of the container */
+  gap: 20px;
+}
+
+/* Styling for the table container */
+.table-container {
+  flex: 1;
+  max-width: 48%; /* Takes half the screen */
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+/* Styling the table */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+}
+
+.order-table thead tr {
+  background-color: #4dd5ff;
+  color: #ffffff;
+  text-align: left;
+  font-weight: bold;
+}
+
+.order-table th,
+.order-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.order-table tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.order-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.order-table tbody tr:last-of-type {
+  border-bottom: 2px solid #4dd5ff;
+}
+
+/* Styling for the additional UI section */
+.additional-ui {
+  flex: 1;
+  max-width: 48%; /* Takes the other half of the screen */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+}
+.order-actions {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  justify-content: space-around; /* Space between buttons */
+}
+/* Styling the buttons */
+.order-actions .btn {
+  width: 48%; /* Ensure buttons are equal size */
+  padding: 12px; /* Consistent padding */
+  padding: 8px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-actions .btn-danger {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.order-actions .btn-danger:hover {
+  background-color: #e04343;
+}
+
+.order-actions .btn-success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.order-actions .btn-success:hover {
+  background-color: #45a049;
+}
+
+/* Hide the hidden input field */
+.hidden {
+  display: none;
+}

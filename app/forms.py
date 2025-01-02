@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms import HiddenField, StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 
 
@@ -30,3 +30,9 @@ class TableAssignmentForm(FlaskForm):
     def validate_servers(form, field):
         if field.data == -1:  # The value for the placeholder
             raise ValidationError("Please select a valid server.")
+
+
+class TableActionsForm(FlaskForm):
+    close_table = SubmitField("Close Table")
+    add_to_order = SubmitField("Add to Order")
+    table_id = HiddenField("Table ID")
